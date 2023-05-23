@@ -22,6 +22,7 @@ const configuration = stripe.billingPortal.configurations.create({
 app.post("/create-customer-portal-session", async (req, res) => {
   try {
     // Authenticate your user.
+    // creating session on portal
     const session = await stripe.billingPortal.sessions.create({
       customer: "cus_Nwkz5JA7yY1wEu",
       return_url: `${process.env.SERVER_URL}`,

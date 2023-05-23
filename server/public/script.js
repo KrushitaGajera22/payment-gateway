@@ -5,6 +5,7 @@ button.addEventListener("click", () => {
     headers: {
       "Content-Type": "application/json",
     },
+    // foe quantity of items
     body: JSON.stringify({
       items: [
         { id: 1, quantity: 3 },

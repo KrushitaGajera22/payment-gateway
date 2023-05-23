@@ -1,5 +1,4 @@
-const { closeDelimiter } = require("ejs");
-
+//create customer and product
 const customer = await stripe.customers
   .create({
     name: "Customer 1",
@@ -33,10 +32,12 @@ const customer = await stripe.customers
       });
   });
 
+  // create promotionCode
 const promotionCode = await stripe.promotionCodes.create({
   coupon: "Z4OV52SU",
 });
 
+// for updating portal configurations
 const configuration = await stripe.billingPortal.configurations.update(
   "bpc_1NAtqP2eZvKYlo2CiTTVDo0F",
   {
@@ -47,20 +48,25 @@ const configuration = await stripe.billingPortal.configurations.update(
   }
 );
 
+// for retrieving portal configuration data
 const configuration1 = await stripe.billingPortal.configurations.retrieve(
   "bpc_1NAtqP2eZvKYlo2CiTTVDo0F"
 );
 
+// list of portal configuration data
 const configurations = await stripe.billingPortal.configurations.list({
   limit: 3,
 });
 
+// for creating portal configuration data
 const configuration2 = await stripe.billingPortal.configurations.create({
   features: {
+    // for updating customer details
     customer_update: {
       allowed_updates: ["email", "tax_id"],
       enabled: true,
     },
+    //for updating subscription use subscription_update
     invoice_history: { enabled: true },
   },
   business_profile: {
@@ -69,6 +75,7 @@ const configuration2 = await stripe.billingPortal.configurations.create({
   },
 });
 
+//for creating subscription
 const subscription = await stripe.subscriptions.create({
   customer: "cus_9s6XWPuHZWFcfK",
   items: [{ price: "price_1NAtRg2eZvKYlo2CKyCXoLMW" }],

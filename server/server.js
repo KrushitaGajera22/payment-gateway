@@ -7,12 +7,14 @@ app.use(express.static("public"));
 
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
+// static data
 const storeItems = new Map([
   [1, { price: 10000, name: "Learn React Today!!" }],
   [2, { price: 5000, name: "Learn Css Today!!" }],
   [3, { price: 15000, name: "Learn JavaScript Today!!" }],
 ]);
 
+// for promotion code (coupons)
 const promotionCode = stripe.promotionCodes.create({
   coupon: 'SMUyvt7h',
   // code: 'VIPCODE2',
@@ -20,6 +22,8 @@ const promotionCode = stripe.promotionCodes.create({
 
 app.post("/create-checkout-session", async (req, res) => {
   try {
+    
+    // for creating a new checkout session using the Stripe API
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
@@ -42,7 +46,9 @@ app.post("/create-checkout-session", async (req, res) => {
           message: "We'll email you instructions on how to get started.",
         },
       },
+      // for redirecting customer to success page after successful completion of payment
       success_url: `${process.env.SERVER_URL}/success.html`,
+      // for redirecting customer to cancel page after canceling payment
       cancel_url: `${process.env.SERVER_URL}/cancel.html`,
     });
     res.json({ url: session.url });
